@@ -15,7 +15,9 @@ def ch_dev(arg_params, aux_params, ctx):
 
 def main():
     ctx = mx.cpu() if args.gpus is None else [mx.gpu(int(i)) for i in args.gpus.split(',')]
-    sym, arg_params, aux_params = mx.model.load_checkpoint(args.model_path, args.model_load_epoch)
+
+    model_prefix = "{}/resnet-{}-{}".format(args.model_path, args.data_type, args.depth)
+    sym, arg_params, aux_params = mx.model.load_checkpoint(model_prefix, args.model_load_epoch)
 
     train = mx.io.ImageRecordIter(
         path_imgrec         = os.path.join(args.data_dir, "cifar10_train.rec") if args.data_type == 'cifar10' else
@@ -90,6 +92,7 @@ if __name__ == "__main__":
     parser.add_argument('--batch-size', type=int, default=256, help='the batch size')
     parser.add_argument('--num-examples', type=int, default=1281167, help='the number of training examples')
     parser.add_argument('--kv-store', type=str, default='device', help='the kvstore type')
+    parser.add_argument('--depth', type=int, default=50, help='the depth of resnet')
     parser.add_argument('--model-path', type=str, default='.', help='path to the saved model')
     parser.add_argument('--model-load-epoch', type=int, default=160,
                         help='load the model on an epoch using the model-load-prefix')
