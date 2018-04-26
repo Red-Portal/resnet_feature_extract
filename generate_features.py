@@ -25,7 +25,6 @@ def evaluate(ctx, sym, args_params, aux_params, data):
         print("-- forwarding batch ", i)
         data = batch.data[0]
         label = batch.label[0]
-        print(label)
 
         out = executor.forward(False, data=data)
 
