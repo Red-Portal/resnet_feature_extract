@@ -17,7 +17,10 @@ def ch_dev(arg_params, aux_params, ctx):
 def evaluate(sym, data):
     fmaps = []
     labels = []
-    for batch, label, _ in data:
+    for i, batch in enumerate(data):
+        data = batch.data[0].as_numpy()
+        label = batch.label[0]
+
         executor = out_layer.bind(ctx=ctx, args={"data": batch})
         executor.forward()
         out = executor.outputs.asnumpy()
