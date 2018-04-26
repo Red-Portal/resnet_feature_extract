@@ -82,6 +82,7 @@ def main():
     out_layer = sym.get_internals()["flatten0_output"]
 
     arg_params.pop("fc1_bias", None)
+    arg_params.pop("fc1_weight", None)
 
     print("-- Extracting feature maps")
     fmap_train, label_train = evaluate(ctx, out_layer, arg_params, aux_params, train)
