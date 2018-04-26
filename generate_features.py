@@ -15,7 +15,7 @@ def ch_dev(arg_params, aux_params, ctx):
 
 def main():
     ctx = mx.cpu() if args.gpus is None else [mx.gpu(int(i)) for i in args.gpus.split(',')]
-    sym, arg_params, aux_params = mx.model.load_checkpoint(args.modeel_path, args.epoch)
+    sym, arg_params, aux_params = mx.model.load_checkpoint(args.model_path, args.epoch)
 
     train = mx.io.ImageRecordIter(
         path_imgrec         = os.path.join(args.data_dir, "cifar10_train.rec") if args.data_type == 'cifar10' else
