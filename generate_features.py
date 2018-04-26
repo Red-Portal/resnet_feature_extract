@@ -14,16 +14,18 @@ def ch_dev(arg_params, aux_params, ctx):
         new_auxs[k] = v.as_in_context(ctx)
     return new_args, new_auxs
 
-def evaluate(ctx, sym, params, data):
+def evaluate(ctx, sym, args_params, aux_params, data):
     fmaps = []
     labels = []
     for i, batch in enumerate(data):
         data = batch.data[0]
         label = batch.label[0].asnumpy()
 
-        executor = sym.bind(mx.cpu(), args={"data": data} + params)
+        executor = sym.bind(mx.cpu(), args={"data": data})
+        executor.copy_params_from(args_params, aux_params)
         executor.forward()
         out = executor.outputs.asnumpy()
+
         fmaps.append(out)
         labels.append(label)
 
@@ -80,8 +82,8 @@ def main():
     # model = mx.mod.Module(out_layer, context = ctx)
 
     print("-- Extracting feature maps")
-    fmap_train, label_train = evaluate(ctx, out_layer, arg_params, train)
-    fmap_val  , label_val   = evaluate(ctx, out_layer, arg_params, val)
+    fmap_train, label_train = evaluate(ctx, out_layer, arg_params, aux_params, train)
+    fmap_val  , label_val   = evaluate(ctx, out_layer, arg_params, aux_params, val)
     print("-- Extracting feature maps - Done")
     print(" shape of feature maps:", fmap_train.shape, " ", fmap_val.shape)
 
