@@ -19,7 +19,7 @@ def evaluate(ctx, sym, data):
     labels = []
     for i, batch in enumerate(data):
         data = batch.data[0]
-        label = batch.label[0].as_numpy()
+        label = batch.label[0].asnumpy()
 
         executor = out_layer.bind(ctx=ctx, args={"data": data})
         executor.forward()
