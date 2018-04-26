@@ -18,10 +18,10 @@ def evaluate(ctx, sym, data):
     fmaps = []
     labels = []
     for i, batch in enumerate(data):
-        data = batch.data[0].as_in_context(ctx)
+        data = batch.data[0]
         label = batch.label[0].as_numpy()
 
-        executor = out_layer.bind(ctx=ctx, args={"data": batch})
+        executor = out_layer.bind(ctx=ctx, args={"data": data})
         executor.forward()
         out = executor.outputs.asnumpy()
         fmaps.append(out)
