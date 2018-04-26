@@ -34,7 +34,7 @@ def evaluate(ctx, sym, args_params, aux_params, data):
         fmaps = np.concatenate([fmap, fmaps], 0)
         labels = np.concatenate([label, labels], 0)
 
-    return labels, fmaps
+    return fmaps, labels
 
 def main():
     ctx = mx.cpu() if args.gpus is None else [mx.gpu(int(i)) for i in args.gpus.split(',')]
