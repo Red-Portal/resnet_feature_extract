@@ -20,6 +20,8 @@ def main():
         'objective': 'multi:softprob',  # error evaluation for multiclass training
         'tree_method' : 'gpu_hist',
         'predictor' : 'gpu_predictor',
+        'lambda' : args.lambda_reg,
+        'subsample' : args.subsample,
         'num_class': 10}  # the number of classes that exist in this datset
     num_round = args.rounds  # the number of training iterations
 
@@ -36,6 +38,8 @@ if __name__ == "__main__":
     parser.add_argument('--max-depth', type=int, default=3)
     parser.add_argument('--eta', type=float, default=0.3)
     parser.add_argument('--rounds', type=int, default=20)
+    parser.add_argument('--lambda_reg', type=float, default=1.0)
+    parser.add_argument('--subsample', type=float, default=1)
     args = parser.parse_args()
     main()
 
