@@ -57,9 +57,11 @@ def main():
         rand_mirror         = False,
         num_parts           = kv.num_workers,
         part_index          = kv.rank)
+
+
     model = mx.model.FeedForward(
         ctx                 = ctx,
-        symbol              = sym,
+        symbol              = sym.get_internals()["relu1"],
         arg_params          = arg_params,
         aux_params          = aux_params,
         )
@@ -80,7 +82,7 @@ def main():
     np.save("train_labels.npy", labels)
 
     labels = []
-    for _, label, _ in train:
+    for _, label, _ in val:
         labels.append(label)
     labels = np.concatenate(labels, 0)
     np.save("val_labels.npy", labels)
