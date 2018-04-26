@@ -24,12 +24,15 @@ def evaluate(ctx, sym, args_params, aux_params, data):
     for i, batch in enumerate(data):
         print("-- forwarding batch ", i)
         data = batch.data[0]
-        label = batch.label[0].asnumpy()
+        label = batch.label[0]
         print(label)
 
         out = executor.forward(False, data=data)
 
-        fmaps = np.concatenate([out[0].asnumpy(), fmaps], 0)
+        fmap = out[0].asnumpy()
+        label = np.expand_dims(label.asnumpy(), 0)
+
+        fmaps = np.concatenate([fmap, fmaps], 0)
         labels = np.concatenate([label, labels], 0)
 
     return labels, fmaps
