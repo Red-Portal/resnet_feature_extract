@@ -16,7 +16,7 @@ def ch_dev(arg_params, aux_params, ctx):
 def main():
     ctx = mx.cpu() if args.gpus is None else [mx.gpu(int(i)) for i in args.gpus.split(',')]
 
-    model_prefix = "{}/resnet-{}-{}".format(args.model_path, args.data_type, args.depth)
+    model_prefix = "{}/resnet-{}-{}-0".format(args.model_path, args.data_type, args.depth)
     sym, arg_params, aux_params = mx.model.load_checkpoint(model_prefix, args.model_load_epoch)
 
     train = mx.io.ImageRecordIter(
