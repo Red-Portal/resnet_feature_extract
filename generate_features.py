@@ -28,6 +28,7 @@ def evaluate(ctx, sym, args_params, aux_params, data):
 
         print("-- forwarding batch ", i)
         executor.forward(False, data=data)
+        print("-- forwarding batch ", i)
         out = np.array(executor.outputs)
         print("-- forwarding batch ", i)
 
