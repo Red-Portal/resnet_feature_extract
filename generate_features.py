@@ -58,9 +58,9 @@ def main():
         num_parts           = kv.num_workers,
         part_index          = kv.rank)
 
-    print(sym.get_internals())
+    out_layer = sym.get_internals()["flatten0"]
     model = mx.mod.Module(
-        sym.get_internals()["flatten0"],
+        out_layer,
         context             = ctx,
         # arg_params          = arg_params,
         # aux_params          = aux_params,
