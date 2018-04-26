@@ -16,7 +16,7 @@ def ch_dev(arg_params, aux_params, ctx):
 
 def evaluate(ctx, sym, args_params, aux_params, data):
     fmaps = np.zeros([0, 64])
-    labels = np.zeros([0, 10])
+    labels = np.zeros([0])
 
     executor = sym.simple_bind(ctx[0], "null", data=(args.batch_size, 3, 32, 32))
     executor.copy_params_from(args_params, aux_params)
@@ -30,7 +30,7 @@ def evaluate(ctx, sym, args_params, aux_params, data):
         out = executor.forward(False, data=data)
 
         fmap = out[0].asnumpy()
-        label = np.expand_dims(label.asnumpy(), 0)
+        label = label.asnumpy()
 
         fmaps = np.concatenate([fmap, fmaps], 0)
         labels = np.concatenate([label, labels], 0)
