@@ -16,8 +16,9 @@ def ch_dev(arg_params, aux_params, ctx):
 
 def main():
     ctx = mx.cpu() if args.gpus is None else [mx.gpu(int(i)) for i in args.gpus.split(',')]
+    kv = mx.kvstore.create(args.kv_store)
 
-    model_prefix = "{}/resnet-{}-{}-0".format(args.model_path, args.data_type, args.depth)
+    model_prefix = "{}/resnet-{}-{}-{}".format(args.model_path, args.data_type, args.depth, kv.rank)
     sym, arg_params, aux_params = mx.model.load_checkpoint(model_prefix, args.model_load_epoch)
 
     train = mx.io.ImageRecordIter(
@@ -87,6 +88,7 @@ def main():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="command for training resnet-v2")
+    parser.add_argument('--kv-store', type=str, default='device', help='the kvstore type')
     parser.add_argument('--gpus', type=str, default='0', help='the gpus will be used, e.g "0,1,2,3"')
     parser.add_argument('--data-dir', type=str, default='./data/imagenet/', help='the input data directory')
     parser.add_argument('--data-type', type=str, default='imagenet', help='the dataset type')
@@ -97,5 +99,9 @@ if __name__ == "__main__":
     parser.add_argument('--model-path', type=str, default='.', help='path to the saved model')
     parser.add_argument('--model-load-epoch', type=int, default=160,
                         help='load the model on an epoch using the model-load-prefix')
+    parser.add_argument('--aug-level', type=int, default=2, choices=[1, 2, 3],
+                        help='level 1: use only random crop and random mirror\n'
+                             'level 2: add scale/aspect/hsv augmentation based on level 1\n'
+                             'level 3: add rotation/shear augmentation based on level 2')
     args = parser.parse_args()
     main()
