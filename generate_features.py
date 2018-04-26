@@ -76,13 +76,13 @@ def main():
     labels = []
     for _, label, _ in train:
         labels.append(label)
-    labels = np.concat(labels, 0)
+    labels = np.concatenate(labels, 0)
     np.save("train_labels.npy", labels)
 
     labels = []
     for _, label, _ in train:
         labels.append(label)
-    labels = np.concat(labels, 0)
+    labels = np.concatenate(labels, 0)
     np.save("val_labels.npy", labels)
 
 
