@@ -28,8 +28,8 @@ def evaluate(ctx, sym, args_params, aux_params, data):
 
         out = executor.forward(False, data=data)
 
-        fmaps = np.stack([out[0], fmaps], 0)
-        labels = np.stack([label, labels], 0)
+        fmaps = np.concatenate([out[0], fmaps], 0)
+        labels = np.concatenate([label, labels], 0)
 
     return labels, fmaps
 
