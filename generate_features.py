@@ -14,6 +14,20 @@ def ch_dev(arg_params, aux_params, ctx):
         new_auxs[k] = v.as_in_context(ctx)
     return new_args, new_auxs
 
+def evaluate(sym, data):
+    fmaps = []
+    labels = []
+    for batch, label, _ in data:
+        executor = out_layer.bind(ctx=ctx, args={"data": batch})
+        executor.forward()
+        out = executor.outputs.asnumpy()
+        fmaps.append(out)
+        labels.append(label)
+
+    labels = np.concatenate(labels, 0)
+    fmaps = np.concatenate(fmaps, 0)
+    return labels, fmaps
+
 def main():
     ctx = mx.cpu() if args.gpus is None else [mx.gpu(int(i)) for i in args.gpus.split(',')]
     kv = mx.kvstore.create(args.kv_store)
@@ -60,28 +74,19 @@ def main():
 
     out_layer = sym.get_internals()["flatten0_output"]
     #.list_outputs()[]
-    model = mx.mod.Module(out_layer, context = ctx)
+    # model = mx.mod.Module(out_layer, context = ctx)
 
     print("-- Extracting feature maps")
-    Y_train = model.predict(train)
-    Y_val = model.predict(val)
+    fmap_train, label_train = evaluate(out_layer, train)
+    fmap_val  , label_val   = evaluate(out_layer, val)
     print("-- Extracting feature maps - Done")
-    print(" shape of feature maps:", Y_train.shape, " ", Y_val.shape)
+    print(" shape of feature maps:", fmap_train.shape, " ", fmap_val.shape)
 
-    np.save("train_fmap.npy", Y_train)
-    np.save("val_fmap.npy", Y_val)
+    np.save("train_fmap.npy", fmap_train)
+    np.save("val_fmap.npy", fmap_val)
 
-    labels = []
-    for _, label, _ in train:
-        labels.append(label)
-    labels = np.concatenate(labels, 0)
-    np.save("train_labels.npy", labels)
-
-    labels = []
-    for _, label, _ in val:
-        labels.append(label)
-    labels = np.concatenate(labels, 0)
-    np.save("val_labels.npy", labels)
+    np.save("train_labels.npy", label_train)
+    np.save("val_labels.npy", label_val)
 
 
 if __name__ == "__main__":
