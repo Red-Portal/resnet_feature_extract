@@ -58,7 +58,7 @@ def main():
         num_parts           = kv.num_workers,
         part_index          = kv.rank)
 
-
+    print(sym.get_internals())
     model = mx.mod.Module(
         sym.get_internals()["relu1"],
         context             = ctx,
