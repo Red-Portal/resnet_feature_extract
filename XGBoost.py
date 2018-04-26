@@ -21,7 +21,8 @@ param = {
     'num_class': 10}  # the number of classes that exist in this datset
 num_round = 20  # the number of training iterations
 
-tree = xgb.train(param, train_mat, num_round)
+watchlist = [ (train_mat,'train') ]
+tree = xgb.train(param, train_mat, num_round, watchlist)
 
 predictions = tree.predict(val_mat)
 pred_y = np.asarray([np.argmax(line) for line in predictions])
