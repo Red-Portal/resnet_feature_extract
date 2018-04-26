@@ -59,11 +59,11 @@ def main():
         part_index          = kv.rank)
 
 
-    model = mx.model.FeedForward(
-        ctx                 = ctx,
-        symbol              = sym.get_internals()["relu1"],
-        arg_params          = arg_params,
-        aux_params          = aux_params,
+    model = mx.mod.Module(
+        sym.get_internals()["relu1"],
+        context             = ctx,
+        # arg_params          = arg_params,
+        # aux_params          = aux_params,
         )
 
     print("-- Extracting feature maps")
