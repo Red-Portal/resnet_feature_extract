@@ -27,9 +27,8 @@ def evaluate(ctx, sym, args_params, aux_params, data):
         label = batch.label[0].asnumpy()
 
         out = executor.forward(False, data=data)
-        print(out[0].shape)
 
-        fmaps.append(out)
+        fmaps.append(out[0])
         labels.append(label)
 
     labels = np.concatenate(labels, 0)
