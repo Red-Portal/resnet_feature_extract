@@ -24,5 +24,5 @@ num_round = 20  # the number of training iterations
 tree = xgb.train(param, train_mat, num_round)
 
 predictions = tree.predict(val_mat)
-best_y = np.asarray([np.argmax(line) for line in predictions])
+pred_y = np.asarray([np.argmax(line) for line in predictions])
 print("precision", precision_score(val_y, pred_y, average='macro'))
