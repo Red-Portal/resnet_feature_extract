@@ -17,12 +17,14 @@ def ch_dev(arg_params, aux_params, ctx):
 def evaluate(ctx, sym, args_params, aux_params, data):
     fmaps = []
     labels = []
+
+    executor = sym.simple_bind(mx.cpu(), "null")
+    executor.copy_params_from(args_params, aux_params, {data:(3, 32, 32)})
+
     for i, batch in enumerate(data):
         data = batch.data[0]
         label = batch.label[0].asnumpy()
 
-        executor = sym.simple_bind(mx.cpu())
-        executor.copy_params_from(args_params, aux_params)
         executor.forward(False, data=data)
         out = executor.outputs.asnumpy()
 
