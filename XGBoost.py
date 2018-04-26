@@ -1,7 +1,7 @@
 import xgboost as xgb
 import numpy as np
 import argparse
-from sklearn.metrics import precision_score
+import sklearn.metrics as metrics
 
 def main():
     train_x = np.load("train_fmap.npy")
@@ -28,7 +28,7 @@ def main():
 
     predictions = tree.predict(val_mat)
     pred_y = np.asarray([np.argmax(line) for line in predictions])
-    print("precision", precision_score(val_y, pred_y, average='macro'))
+    print("precision", metrics.classification_report(val_y, pred_y))
 
 
 if __name__ == "__main__":
