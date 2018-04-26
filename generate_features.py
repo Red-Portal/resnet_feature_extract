@@ -58,7 +58,8 @@ def main():
         num_parts           = kv.num_workers,
         part_index          = kv.rank)
 
-    out_layer = sym.get_internals().list_outputs()[-6]
+    out_layer = sym.get_internals()["flatten0_output"]
+    #.list_outputs()[]
     model = mx.mod.Module(
         out_layer,
         context             = ctx,
