@@ -17,11 +17,11 @@ def main():
         args.num_classes = 10
         # depth should be one of 110, 164, 1001,...,which is should fit (args.depth-2)%9 == 0
         if((args.depth-2)%9 == 0 and args.depth >= 164):
-            per_unit = [(args.depth-2)/9]
+            per_unit = [int((args.depth-2)/9)]
             filter_list = [16, 64, 128, 256]
             bottle_neck = True
         elif((args.depth-2)%6 == 0 and args.depth < 164):
-            per_unit = [(args.depth-2)/6]
+            per_unit = [int((args.depth-2)/6)]
             filter_list = [16, 16, 32, 64]
             bottle_neck = False
         else:
@@ -111,7 +111,7 @@ def main():
         symbol              = symbol,
         arg_params          = arg_params,
         aux_params          = aux_params,
-        num_epoch           = 200 if args.data_type == "cifar10" else 120,
+        num_epoch           = 160 if args.data_type == "cifar10" else 120,
         begin_epoch         = begin_epoch,
         learning_rate       = args.lr,
         momentum            = args.mom,
@@ -119,7 +119,7 @@ def main():
         optimizer           = 'nag',
         # optimizer          = 'sgd',
         initializer         = mx.init.Xavier(rnd_type='gaussian', factor_type="in", magnitude=2),
-        lr_scheduler        = multi_factor_scheduler(begin_epoch, epoch_size, step=[120, 160], factor=0.1)
+        lr_scheduler        = multi_factor_scheduler(begin_epoch, epoch_size, step=[60,120], factor=0.1)
                              if args.data_type=='cifar10' else
                              multi_factor_scheduler(begin_epoch, epoch_size, step=[30, 60, 90], factor=0.1),
         )
