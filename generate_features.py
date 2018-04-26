@@ -60,7 +60,7 @@ def main():
 
     print(sym.get_internals())
     model = mx.mod.Module(
-        sym.get_internals()["relu1"],
+        sym.get_internals()["flatten0"],
         context             = ctx,
         # arg_params          = arg_params,
         # aux_params          = aux_params,
