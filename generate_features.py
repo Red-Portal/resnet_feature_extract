@@ -84,6 +84,7 @@ def main():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="command for training resnet-v2")
+    parser.add_argument('--gpus', type=str, default='0', help='the gpus will be used, e.g "0,1,2,3"')
     parser.add_argument('--data-dir', type=str, default='./data/imagenet/', help='the input data directory')
     parser.add_argument('--data-type', type=str, default='imagenet', help='the dataset type')
     parser.add_argument('--batch-size', type=int, default=256, help='the batch size')
