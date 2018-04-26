@@ -58,7 +58,7 @@ def main():
         num_parts           = kv.num_workers,
         part_index          = kv.rank)
     model = mx.model.FeedForward(
-        ctx                 = devs,
+        ctx                 = ctx,
         symbol              = sym,
         arg_params          = arg_params,
         aux_params          = aux_params,
