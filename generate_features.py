@@ -15,8 +15,8 @@ def ch_dev(arg_params, aux_params, ctx):
     return new_args, new_auxs
 
 def evaluate(ctx, sym, args_params, aux_params, data):
-    fmaps = np.zeros([1, 64])
-    labels = np.zeros([1, 10])
+    fmaps = np.zeros([0, 64])
+    labels = np.zeros([0, 10])
 
     executor = sym.simple_bind(ctx[0], "null", data=(args.batch_size, 3, 32, 32))
     executor.copy_params_from(args_params, aux_params)
@@ -28,12 +28,10 @@ def evaluate(ctx, sym, args_params, aux_params, data):
 
         out = executor.forward(False, data=data)
 
-        print(out[0].shape)
-        print(fmaps.shape)
-        fmaps = np.concatenate([out[0], fmaps], 0)
+        fmaps = np.concatenate([out[0].asnumpy(), fmaps], 0)
         labels = np.concatenate([label, labels], 0)
 
-    return labels[1:,:], fmaps[1:,:]
+    return labels, fmaps#labels[1:,:], fmaps[1:,:]
 
 def main():
     ctx = mx.cpu() if args.gpus is None else [mx.gpu(int(i)) for i in args.gpus.split(',')]
