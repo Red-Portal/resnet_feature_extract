@@ -131,8 +131,8 @@ def main():
         kvstore            = kv,
         batch_end_callback = mx.callback.Speedometer(args.batch_size, args.frequent),
         epoch_end_callback = checkpoint)
-    # logging.info("top-1 and top-5 acc is {}".format(model.score(X = val,
-    #               eval_metric = ['acc', mx.metric.create('top_k_accuracy', top_k = 5)])))
+    logging.info("top-1 and top-5 acc is {}".format(model.score(X = val,
+                  eval_metric = ['acc', mx.metric.create('top_k_accuracy', top_k = 5)])))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="command for training resnet-v2")
