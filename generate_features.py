@@ -15,7 +15,7 @@ def ch_dev(arg_params, aux_params, ctx):
     return new_args, new_auxs
 
 def evaluate(ctx, sym, args_params, aux_params, data):
-    fmaps = np.zeros([0, 32, 32])
+    fmaps = np.zeros([0, 64])
     labels = np.zeros([0, 10])
 
     executor = sym.simple_bind(ctx[0], "null", data=(args.batch_size, 3, 32, 32))
