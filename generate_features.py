@@ -14,7 +14,7 @@ def ch_dev(arg_params, aux_params, ctx):
     return new_args, new_auxs
 
 def main():
-    ctx = mx.gpu(args.gpu)
+    ctx = mx.cpu() if args.gpus is None else [mx.gpu(int(i)) for i in args.gpus.split(',')]
     sym, arg_params, aux_params = mx.model.load_checkpoint(args.modeel_path, args.epoch)
 
     train = mx.io.ImageRecordIter(
