@@ -15,7 +15,7 @@ def ch_dev(arg_params, aux_params, ctx):
 
 def main():
     ctx = mx.gpu(args.gpu)
-    sym, arg_params, aux_params = mx.model.load_checkpoint(args.prefix, args.epoch)
+    sym, arg_params, aux_params = mx.model.load_checkpoint(args.modeel_path, args.epoch)
 
     train = mx.io.ImageRecordIter(
         path_imgrec         = os.path.join(args.data_dir, "cifar10_train.rec") if args.data_type == 'cifar10' else
@@ -89,6 +89,7 @@ if __name__ == "__main__":
     parser.add_argument('--batch-size', type=int, default=256, help='the batch size')
     parser.add_argument('--num-examples', type=int, default=1281167, help='the number of training examples')
     parser.add_argument('--kv-store', type=str, default='device', help='the kvstore type')
+    parser.add_argument('--model-path', type=str, default='.', help='path to the saved model')
     parser.add_argument('--model-load-epoch', type=int, default=160,
                         help='load the model on an epoch using the model-load-prefix')
     args = parser.parse_args()
