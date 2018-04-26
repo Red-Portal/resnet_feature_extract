@@ -18,7 +18,7 @@ def evaluate(ctx, sym, args_params, aux_params, data):
     fmaps = []
     labels = []
 
-    executor = sym.simple_bind(ctx, "null")
+    executor = sym.simple_bind(ctx[0], "null")
     executor.copy_params_from(args_params, aux_params)
 
     for i, batch in enumerate(data):
