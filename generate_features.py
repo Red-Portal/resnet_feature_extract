@@ -60,16 +60,11 @@ def main():
 
     out_layer = sym.get_internals()["flatten0_output"]
     #.list_outputs()[]
-    model = mx.mod.Module(
-        out_layer,
-        context             = ctx,
-        # arg_params          = arg_params,
-        # aux_params          = aux_params,
-        )
+    model = mx.mod.Module(out_layer, context = ctx)
 
     print("-- Extracting feature maps")
-    Y_train = model.predict(X = train)
-    Y_val = model.predict(X = val)
+    Y_train = model.predict(train)
+    Y_val = model.predict(val)
     print("-- Extracting feature maps - Done")
     print(" shape of feature maps:", Y_train.shape, " ", Y_val.shape)
 
