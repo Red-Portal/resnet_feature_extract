@@ -22,6 +22,7 @@ def evaluate(ctx, sym, args_params, aux_params, data):
     executor.copy_params_from(args_params, aux_params)
 
     for i, batch in enumerate(data):
+        print("-- forwarding batch ", i)
         data = batch.data[0]
         label = batch.label[0].asnumpy()
 
