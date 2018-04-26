@@ -15,8 +15,8 @@ def ch_dev(arg_params, aux_params, ctx):
     return new_args, new_auxs
 
 def evaluate(ctx, sym, args_params, aux_params, data):
-    fmaps = []
-    labels = []
+    fmaps = np.zeros([0, 32, 32])
+    labels = np.zeros([0, 10])
 
     executor = sym.simple_bind(ctx[0], "null", data=(args.batch_size, 3, 32, 32))
     executor.copy_params_from(args_params, aux_params)
@@ -28,11 +28,9 @@ def evaluate(ctx, sym, args_params, aux_params, data):
 
         out = executor.forward(False, data=data)
 
-        fmaps.append(out[0])
-        labels.append(label)
+        fmaps = np.concatenate([out[0], fmaps], 0)
+        labels = np.concatenate([label, labels], 0)
 
-    labels = np.concatenate(labels, 0)
-    fmaps = np.concatenate(fmaps, 0)
     return labels, fmaps
 
 def main():
@@ -86,15 +84,18 @@ def main():
 
     print("-- Extracting feature maps")
     fmap_train, label_train = evaluate(ctx, out_layer, arg_params, aux_params, train)
-    fmap_val  , label_val   = evaluate(ctx, out_layer, arg_params, aux_params, val)
-    print("-- Extracting feature maps - Done")
-    print(" shape of feature maps:", fmap_train.shape, " ", fmap_val.shape)
-
+    print(" shape of feature maps:", fmap_train.shape, " ", label_train.shape)
     np.save("train_fmap.npy", fmap_train)
-    np.save("val_fmap.npy", fmap_val)
-
     np.save("train_labels.npy", label_train)
+    print("-- Extracting feature maps - Done")
+
+
+    print("-- Extracting feature maps")
+    fmap_val  , label_val   = evaluate(ctx, out_layer, arg_params, aux_params, val)
+    print(" shape of feature maps:", fmap_val.shape, " ", label_val.shape)
+    np.save("val_fmap.npy", fmap_val)
     np.save("val_labels.npy", label_val)
+    print("-- Extracting feature maps - Done")
 
 
 if __name__ == "__main__":
