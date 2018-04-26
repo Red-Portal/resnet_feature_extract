@@ -25,13 +25,14 @@ def evaluate(ctx, sym, args_params, aux_params, data):
         print("-- forwarding batch ", i)
         data = batch.data[0]
         label = batch.label[0].asnumpy()
+        print(label)
 
         out = executor.forward(False, data=data)
 
         fmaps = np.concatenate([out[0].asnumpy(), fmaps], 0)
         labels = np.concatenate([label, labels], 0)
 
-    return labels, fmaps#labels[1:,:], fmaps[1:,:]
+    return labels, fmaps
 
 def main():
     ctx = mx.cpu() if args.gpus is None else [mx.gpu(int(i)) for i in args.gpus.split(',')]
