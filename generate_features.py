@@ -21,7 +21,7 @@ def evaluate(ctx, sym, data):
         data = batch.data[0]
         label = batch.label[0].asnumpy()
 
-        executor = sym.bind(ctx=ctx, args={"data": data})
+        executor = sym.bind(ctx, args={"data": data})
         executor.forward()
         out = executor.outputs.asnumpy()
         fmaps.append(out)
