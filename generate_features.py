@@ -80,8 +80,8 @@ def main():
         part_index          = kv.rank)
 
     out_layer = sym.get_internals()["flatten0_output"]
-    #.list_outputs()[]
-    # model = mx.mod.Module(out_layer, context = ctx)
+
+    arg_params.pop("fc1_bias", None)
 
     print("-- Extracting feature maps")
     fmap_train, label_train = evaluate(ctx, out_layer, arg_params, aux_params, train)
