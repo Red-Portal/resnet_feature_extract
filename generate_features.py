@@ -26,11 +26,8 @@ def evaluate(ctx, sym, args_params, aux_params, data):
         data = batch.data[0]
         label = batch.label[0].asnumpy()
 
-        print("-- forwarding batch ", i)
-        executor.forward(False, data=data)
-        print("-- forwarding batch ", i)
-        out = np.array(executor.outputs)
-        print("-- forwarding batch ", i)
+        out = executor.forward(False, data=data)
+        print(out.shape)
 
         fmaps.append(out)
         labels.append(label)
