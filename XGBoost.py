@@ -35,11 +35,11 @@ def main():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="command line parameters")
-    parser.add_argument('--max-depth', type=int, default=3)
-    parser.add_argument('--eta', type=float, default=0.3)
-    parser.add_argument('--rounds', type=int, default=20)
-    parser.add_argument('--lambda_reg', type=float, default=1.0)
-    parser.add_argument('--subsample', type=float, default=1)
+    parser.add_argument('--max-depth', type=int, default=2)
+    parser.add_argument('--eta', type=float, default=0.2)
+    parser.add_argument('--rounds', type=int, default=500)
+    parser.add_argument('--lambda_reg', type=float, default=3.0)
+    parser.add_argument('--subsample', type=float, default=0.1)
     args = parser.parse_args()
     main()
 

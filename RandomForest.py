@@ -1,4 +1,5 @@
 
+from sklearn.ensemble import RandomForestClassifier
 import sklearn as sk
 import xgboost as xgb
 import numpy as np
@@ -14,7 +15,7 @@ def main():
     train_mat = xgb.DMatrix(train_x, label=train_y)
     val_mat = xgb.DMatrix(val_x, label=val_y)
 
-    forest = sk.ensemble.RandomForestClassifier(
+    forest = RandomForestClassifier(
         n_estimators=100,
         criterion="entropy",
         max_depth=10,
