@@ -66,8 +66,8 @@ def main():
         part_index          = kv.rank)
 
     model_prefix = "{}/resnet-{}-{}-{}".format(args.model_path, args.data_type, args.depth, kv.rank)
-    model = mx.module.load(prefix              = model_prefix,
-                           epoch               = args.model_load_epoch)
+    model = mx.module.Module.load(prefix              = model_prefix,
+                                  epoch               = args.model_load_epoch)
 
     model.score(eval_data          = val,
                 eval_metric        = ['acc', 'ce'] if args.data_type=='cifar10' else

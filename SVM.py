@@ -21,7 +21,7 @@ def main():
                "gamma":[0.0001, 0.001, 0.01],
                "C":[1, 10, 100, 1000]},
               {"kernel":["linear"],
-               "degree":[2, 3, 4],
+              "degree":[2, 3, 4],
                "C":[1, 10, 100, 1000]}]
 
     svm = GridSearchCV(SVC(), params, n_jobs=8, verbose=3)
