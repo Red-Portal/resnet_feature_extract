@@ -30,6 +30,6 @@ def main():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="command line parameters")
     parser.add_argument('--max-depth', type=int, default=10)
-    parser.add_argument('--trees', type=float, default=100)
+    parser.add_argument('--trees', type=int, default=100)
     args = parser.parse_args()
     main()
