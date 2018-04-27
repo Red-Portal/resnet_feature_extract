@@ -21,7 +21,7 @@ def main():
         max_depth=10,
         oob_score=False,
         n_jobs=6,
-        verbose=1)
+        verbose=3)
 
     forest.fit(train_x, train_y)
 
