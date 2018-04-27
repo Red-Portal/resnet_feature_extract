@@ -57,7 +57,8 @@ def main():
 
     model_prefix = "{}/resnet-{}-{}-{}".format(args.model_path, args.data_type, args.depth, kv.rank)
     model = mx.module.Module.load(prefix              = model_prefix,
-                                  epoch               = args.model_load_epoch)
+                                  epoch               = args.model_load_epoch,
+                                  context             = ctx)
 
     model.score(eval_data          = val,
                 eval_metric        = ['acc', 'ce'] if args.data_type=='cifar10' else
