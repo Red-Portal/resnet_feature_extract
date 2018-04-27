@@ -1,5 +1,5 @@
 
-from sklearn.svm import SVC
+import liquidSVM as liquid
 import sklearn as sk
 import numpy as np
 import argparse
