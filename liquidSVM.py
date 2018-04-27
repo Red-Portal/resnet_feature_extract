@@ -1,11 +1,6 @@
 
 from liquidSVM import *
 
-import importlib.util
-spec = importlib.util.spec_from_file_location("liquidSVM", "~/project/liquidSVM/bindings/python/liquidSVM/__init__.py")
-foo = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(foo)
-
 import sklearn as sk
 import numpy as np
 import argparse
