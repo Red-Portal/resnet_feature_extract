@@ -5,6 +5,7 @@ import sklearn as sk
 import numpy as np
 import argparse
 
+
 def main():
     train_x = np.load("train_fmap.npy")
     train_y = np.load("train_labels.npy")

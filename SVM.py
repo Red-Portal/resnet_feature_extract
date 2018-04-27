@@ -1,27 +1,34 @@
 
-import liquidSVM as liquid
+from sklearn.model_selection import GridSearchCV
+from sklearn.svm import SVC
+
 import sklearn as sk
 import numpy as np
 import argparse
 
 def main():
     train_x = np.load("train_fmap.npy")
-    train_y = np.load("train_labels.npy")
+    traib_y = np.load("train_labels.npy")
 
     val_x = np.load("val_fmap.npy")
     val_y = np.load("val_labels.npy")
 
-    forest = SVC(
-        C=args.penalty,
-        kernel=args.kernel,
-        degree=args.poly_degree,
-        probability=args.probability,
-        max_iter=args.max_iter,
-        verbose=3)
+    params = [{"kernel":["rbf"],
+               "gamma":[0.0001, 0.001, 0.01],
+               "C":[1, 10, 100, 1000]},
+              {"kernel":["poly"],
+               "degree":[2, 3, 4],
+               "gamma":[0.0001, 0.001, 0.01],
+               "C":[1, 10, 100, 1000]},
+              {"kernel":["linear"],
+               "degree":[2, 3, 4],
+               "C":[1, 10, 100, 1000]}]
 
-    forest.fit(train_x, train_y)
+    GridSearchCV(svm, params, n_jobs=8, verbose=3)
 
-    pred_y = forest.predict(val_x)
+    svm.fit(train_x, train_y)
+
+    pred_y = svm.predict(val_x)
     #pred_y = np.asarray([np.argmax(line) for line in predictions])
     print("precision", sk.metrics.classification_report(val_y, pred_y))
 
