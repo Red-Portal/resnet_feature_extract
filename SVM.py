@@ -1,8 +1,8 @@
 
+from sklearn.svm import SVC
 import sklearn as sk
-import argparse
 import numpy as np
-import thundersvmScikit as svm
+import argparse
 
 def main():
     train_x = np.load("train_fmap.npy")
@@ -11,12 +11,13 @@ def main():
     val_x = np.load("val_fmap.npy")
     val_y = np.load("val_labels.npy")
 
-    forest = svm.SVC(
+    forest = SVC(
+        C=args.penalty,
         kernel=args.kernel,
         degree=args.poly_degree,
         probability=args.probability,
         max_iter=args.max_iter,
-        verbose=False)
+        verbose=3)
 
     forest.fit(train_x, train_y)
 
@@ -27,7 +28,7 @@ def main():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="command line parameters")
-    parser.add_argument('--max-iter', type=int, default=300)
+    parser.add_argument('--max-iter', type=int, default=1)
     parser.add_argument('--probability', type=bool, default=True)
     parser.add_argument('--kernel', type=str, default="rbf")
     parser.add_argument('--poly-degree', type=int, default=3)
