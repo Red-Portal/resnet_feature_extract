@@ -8,7 +8,7 @@ import argparse
 
 def main():
     train_x = np.load("train_fmap.npy")
-    traib_y = np.load("train_labels.npy")
+    train_y = np.load("train_labels.npy")
 
     val_x = np.load("val_fmap.npy")
     val_y = np.load("val_labels.npy")
