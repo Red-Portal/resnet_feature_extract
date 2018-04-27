@@ -12,7 +12,7 @@ def main():
     val_x = np.load("val_fmap.npy")
     val_y = np.load("val_labels.npy")
 
-    forest = mcSVM(train_x, train_y)
+    forest = mcSVM(train_x, train_y, display=2)
 
     pred_y = forest.predict(val_x)
     #pred_y = np.asarray([np.argmax(line) for line in predictions])
