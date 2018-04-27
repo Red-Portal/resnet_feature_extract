@@ -1,5 +1,6 @@
 
-import liquidSVM as liquid
+from liquidSVM import *
+
 import sklearn as sk
 import numpy as np
 import argparse
@@ -11,7 +12,7 @@ def main():
     val_x = np.load("val_fmap.npy")
     val_y = np.load("val_labels.npy")
 
-    forest = liquid.mcSVM(train_x, train_y)
+    forest = mcSVM(train_x, train_y)
 
     pred_y = forest.predict(val_x)
     #pred_y = np.asarray([np.argmax(line) for line in predictions])
