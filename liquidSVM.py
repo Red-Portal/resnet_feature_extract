@@ -2,7 +2,7 @@
 from liquidSVM import *
 
 import importlib.util
-spec = importlib.util.spec_from_file_location("liquidSVM", "~/project/liquidSVM/bindings/python")
+spec = importlib.util.spec_from_file_location("liquidSVM", "~/project/liquidSVM/bindings/python/liquidSVM/model.py")
 foo = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(foo)
 
