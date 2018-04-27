@@ -14,28 +14,6 @@ def ch_dev(arg_params, aux_params, ctx):
         new_auxs[k] = v.as_in_context(ctx)
     return new_args, new_auxs
 
-def evaluate(ctx, sym, args_params, aux_params, data):
-    fmaps = np.zeros([0, 64])
-    labels = np.zeros([0])
-
-    executor = sym.simple_bind(ctx[0], "null", data=(args.batch_size, 3, 32, 32))
-    executor.copy_params_from(args_params, aux_params)
-
-    for i, batch in enumerate(data):
-        print("-- forwarding batch ", i)
-        data = batch.data[0]
-        label = batch.label[0]
-
-        out = executor.forward(False, data=data)
-
-        fmap = out[0].asnumpy()
-        label = label.asnumpy()
-
-        fmaps = np.concatenate([fmap, fmaps], 0)
-        labels = np.concatenate([label, labels], 0)
-
-    return fmaps, labels
-
 def main():
     ctx = mx.cpu() if args.gpus is None else [mx.gpu(int(i)) for i in args.gpus.split(',')]
     kv = mx.kvstore.create(args.kv_store)
@@ -62,6 +40,18 @@ def main():
         max_shear_ratio     = 0 if args.aug_level <= 2 else 0.1,
         rand_mirror         = True,
         shuffle             = True,
+        num_parts           = kv.num_workers,
+        part_index          = kv.rank)
+    val = mx.io.ImageRecordIter(
+        path_imgrec         = os.path.join(args.data_dir, "cifar10_val.rec") if args.data_type == 'cifar10' else
+                              os.path.join(args.data_dir, "val_256_q90.rec"),
+        label_width         = 1,
+        data_name           = 'data',
+        label_name          = 'softmax_label',
+        batch_size          = args.batch_size,
+        data_shape          = (3, 32, 32) if args.data_type=="cifar10" else (3, 224, 224),
+        rand_crop           = False,
+        rand_mirror         = False,
         num_parts           = kv.num_workers,
         part_index          = kv.rank)
 
