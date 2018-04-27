@@ -16,7 +16,7 @@ def main():
         degree=args.poly_degree,
         probability=args.probability,
         max_iter=args.max_iter,
-        verbose=True)
+        verbose=False)
 
     forest.fit(train_x, train_y)
 
