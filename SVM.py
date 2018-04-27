@@ -24,8 +24,7 @@ def main():
                "degree":[2, 3, 4],
                "C":[1, 10, 100, 1000]}]
 
-    GridSearchCV(svm, params, n_jobs=8, verbose=3)
-
+    svm = GridSearchCV(SVC(), params, n_jobs=8, verbose=3)
     svm.fit(train_x, train_y)
 
     pred_y = svm.predict(val_x)
