@@ -55,7 +55,7 @@ def main():
         num_parts           = kv.num_workers,
         part_index          = kv.rank)
 
-    model_prefix = "{}/resnet-{}-{}-{}".format(args.model_path, args.data_type, args.depth, kv.rank)
+    model_prefix = "{}/resnet-{}-{}-{}_".format(args.model_path, args.data_type, args.depth, kv.rank)
     model = mx.module.Module.load(prefix              = model_prefix,
                                   epoch               = args.model_load_epoch,
                                   context             = ctx)
