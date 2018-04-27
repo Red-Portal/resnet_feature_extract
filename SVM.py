@@ -26,7 +26,7 @@ def main():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="command line parameters")
-    parser.add_argument('--max-iter', type=int, default=1)
+    parser.add_argument('--max-iter', type=int, default=300)
     parser.add_argument('--probability', type=bool, default=True)
     parser.add_argument('--kernel', type=str, default="rbf")
     parser.add_argument('--poly-degree', type=int, default=3)
