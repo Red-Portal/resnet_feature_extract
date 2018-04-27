@@ -14,7 +14,7 @@ def main():
     val_y = np.load("val_labels.npy")
 
     params = [{"kernel":["rbf"],
-               "gamma":[0.0001, 0.001, 0.01],
+               "gamma":[0.001, 0.001, 0.01, 0.1, 0.2, 0.3],
                "C":[1, 10, 100, 1000]},
               {"kernel":["poly"],
                "degree":[2, 3, 4],
