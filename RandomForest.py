@@ -25,7 +25,7 @@ def main():
 
     forest.fit(train_x, train_y)
 
-    predictions = forest.predict_proba(train_x)
+    predictions = forest.predict_proba(val_x)
     pred_y = np.asarray([np.argmax(line) for line in predictions])
     print("precision", sk.metrics.classification_report(val_y, pred_y))
 
